@@ -1,0 +1,13 @@
+{
+  "name": "dneustadt/dn-bash",
+  "keywords": ["console", "command", "bash", "admin", "maintenance", "development", "shopware", "shopware-plugin"],
+  "description": "Shopware plugin that adds a semi-interactive web shell to the backend",
+  "license": "Apache-2.0",
+  "type": "shopware-plugin",
+  "extra": {
+    "installer-name": "DnBash"
+  },
+  "require": {
+    "composer/installers": "~1.0"
+  }
+}
