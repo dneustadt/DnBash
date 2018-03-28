@@ -45,7 +45,7 @@ Ext.define('Shopware.apps.DnBash.view.Bash', {
                 right: 0;
                 line-height: 20px;
                 padding: 10px 0 0 10px;
-                white-space: pre;
+                white-space: pre-wrap;
             }                
             .input form {
                 position: relative;
@@ -99,8 +99,6 @@ Ext.define('Shopware.apps.DnBash.view.Bash', {
     },
 
     createBashTemplate: function () {
-        var me = this;
-
         return new Ext.XTemplate(
             '{literal}<tpl for=".">',
             '<style>{inlineStyles}</style>',
@@ -109,7 +107,7 @@ Ext.define('Shopware.apps.DnBash.view.Bash', {
                 '<div class="input" id="dn-bash-input">',
                     '<form id="dn-bash-form" method="GET">',
                         '<div class="username" id="dn-bash-username"></div>',
-                        '<input class="inputtext" id="dn-bash-inputtext" type="text" name="cmd" autocomplete="off" autofocus>',
+                        '<input class="inputtext" id="dn-bash-inputtext" name="cmd" autocomplete="off" autofocus>',
                     '</form>',
                 '</div>',
             '</div>',
