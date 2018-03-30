@@ -78,6 +78,7 @@ div.console ::-webkit-scrollbar-thumb {
             <options>
                 <xtype>codemirror</xtype>
                 <mode>css</mode>
+                <height>300</height>
             </options>
         </element>
         <element type="textarea">
@@ -88,6 +89,7 @@ div.console ::-webkit-scrollbar-thumb {
                 <options>
                     <xtype>codemirror</xtype>
                     <mode>htmlmixed</mode>
+                    <height>300</height>
                 </options>
         </element>
     </elements>
