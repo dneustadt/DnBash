@@ -126,14 +126,16 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
 
         request.onreadystatechange = function() {
             if (request.readyState === XMLHttpRequest.DONE) {
+                var prompt = me.opts.prompt.apply({ username: me.opts.username, hostname: me.opts.hostname });
+
                 if (cd) {
                     var parsedResponse = request.responseText.split("<br>");
                     me.opts.previousDir = me.opts.currentDir;
                     me.opts.currentDir = parsedResponse[0].replace(new RegExp("&sol;", "g"), "/");
-                    me.opts.outputElement.innerHTML += me.opts.prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+"<div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
-                    me.opts.usernameElement.innerHTML = me.opts.prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+":"+me.opts.currentDir+"#";
+                    me.opts.outputElement.innerHTML += prompt+"<div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
+                    me.opts.usernameElement.innerHTML = prompt+":"+me.opts.currentDir+"#";
                 } else {
-                    me.opts.outputElement.innerHTML += me.opts.prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+"<div style='float: left;'>"+":"+me.opts.currentDir+"# "+originalCommand+"</div><br>" + request.responseText.replace(new RegExp("<br><br>$"), "<br>");
+                    me.opts.outputElement.innerHTML += prompt+"<div style='float: left;'>"+":"+me.opts.currentDir+"# "+originalCommand+"</div><br>" + request.responseText.replace(new RegExp("<br><br>$"), "<br>");
                     me.opts.outputElement.scrollTop = me.opts.outputElement.scrollHeight;
                 }
                 me.updateInputWidth();
