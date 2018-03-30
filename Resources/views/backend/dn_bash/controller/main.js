@@ -177,6 +177,7 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
             if (request.readyState === XMLHttpRequest.DONE) {
                 me.opts.outputElement.innerHTML += request.responseText+"<br>";
                 me.opts.outputElement.scrollTop = me.opts.outputElement.scrollHeight;
+                me.opts.fileBrowserElement.value = "";
             }
         };
 
