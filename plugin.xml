@@ -3,7 +3,7 @@
     <label lang="de">Kommandozeile</label>
     <label lang="en">Command Line</label>
 
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <link>http://www.davidneustadt.de</link>
     <author>David Neustadt</author>
     <compatibility minVersion="5.4.0" />
@@ -11,5 +11,9 @@
     <changelog version="1.0.0">
         <changes lang="de">Initial Release</changes>
         <changes lang="en">Initial Release</changes>
+    </changelog>
+    <changelog version="1.0.1">
+        <changes lang="de">Konfiguration Stylesheet und Prompt</changes>
+        <changes lang="en">Configuration stylesheet and prompt</changes>
     </changelog>
 </plugin>

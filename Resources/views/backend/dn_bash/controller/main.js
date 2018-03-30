@@ -65,7 +65,10 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
 
     getShellInfo: function() {
         var me = this,
-            request = new XMLHttpRequest();
+            request = new XMLHttpRequest(),
+            prompt = new Ext.XTemplate(
+                '{config name="dnBashPrompt"}'
+            );
 
         request.onreadystatechange = function() {
             if (request.readyState === XMLHttpRequest.DONE) {
@@ -74,7 +77,7 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
                 me.opts.hostname = parsedResponse[1];
                 me.opts.currentDir = parsedResponse[2].replace(new RegExp("&sol;", "g"), "/");
                 me.opts.defaultDir = me.opts.currentDir;
-                me.opts.usernameElement.innerHTML = "<div style='color: #ff0000; float: left;'>"+me.opts.username+"@"+me.opts.hostname+"</div>:"+me.opts.currentDir+"#";
+                me.opts.usernameElement.innerHTML = prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+":"+me.opts.currentDir+"#";
                 me.updateInputWidth();
             }
         };
@@ -91,7 +94,10 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
             command = me.opts.inputTextElement.value,
             originalCommand = command,
             originalDir = me.opts.currentDir,
-            cd = false;
+            cd = false,
+            prompt = new Ext.XTemplate(
+                '{config name="dnBashPrompt"}'
+            );
 
         me.opts.commandHistory.push(originalCommand);
 
@@ -127,10 +133,10 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
                     var parsedResponse = request.responseText.split("<br>");
                     me.opts.previousDir = me.opts.currentDir;
                     me.opts.currentDir = parsedResponse[0].replace(new RegExp("&sol;", "g"), "/");
-                    me.opts.outputElement.innerHTML += "<div style='color:#ff0000; float: left;'>"+me.opts.username+"@"+me.opts.hostname+"</div><div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
-                    me.opts.usernameElement.innerHTML = "<div style='color: #ff0000; float: left;'>"+me.opts.username+"@"+me.opts.hostname+"</div>:"+me.opts.currentDir+"#";
+                    me.opts.outputElement.innerHTML += prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+"<div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
+                    me.opts.usernameElement.innerHTML = prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+":"+me.opts.currentDir+"#";
                 } else {
-                    me.opts.outputElement.innerHTML += "<div style='color:#ff0000; float: left;'>"+me.opts.username+"@"+me.opts.hostname+"</div><div style='float: left;'>"+":"+me.opts.currentDir+"# "+originalCommand+"</div><br>" + request.responseText.replace(new RegExp("<br><br>$"), "<br>");
+                    me.opts.outputElement.innerHTML += prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+"<div style='float: left;'>"+":"+me.opts.currentDir+"# "+originalCommand+"</div><br>" + request.responseText.replace(new RegExp("<br><br>$"), "<br>");
                     me.opts.outputElement.scrollTop = me.opts.outputElement.scrollHeight;
                 }
                 me.updateInputWidth();
@@ -145,7 +151,10 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
 
     uploadFile: function() {
         var me = this,
-            formData = new FormData();
+            formData = new FormData(),
+            prompt = new Ext.XTemplate(
+                '{config name="dnBashPrompt"}'
+            );
 
         formData.append('file', me.opts.fileBrowserElement.files[0], me.opts.fileBrowserElement.files[0].name);
         formData.append('path', me.opts.currentDir);
@@ -155,13 +164,14 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
         request.onreadystatechange = function() {
             if (request.readyState === XMLHttpRequest.DONE) {
                 me.opts.outputElement.innerHTML += request.responseText+"<br>";
+                me.opts.outputElement.scrollTop = me.opts.outputElement.scrollHeight;
             }
         };
 
         request.open("POST", "{url action=getShellInfo}", true);
         request.send(formData);
 
-        me.opts.outputElement.innerHTML += "<div style='color:#ff0000; float: left;'>"+me.opts.username+"@"+me.opts.hostname+"</div><div style='float: left;'>"+":"+me.opts.currentDir+"# Uploading "+me.opts.fileBrowserElement.files[0].name+"...</div><br>";
+        me.opts.outputElement.innerHTML += prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+"<div style='float: left;'>"+":"+me.opts.currentDir+"# Uploading "+me.opts.fileBrowserElement.files[0].name+"...</div><br>";
     },
 
     updateInputWidth: function() {
