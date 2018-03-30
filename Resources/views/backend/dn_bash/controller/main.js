@@ -136,8 +136,8 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
                     me.opts.usernameElement.innerHTML = prompt+":"+me.opts.currentDir+"#";
                 } else {
                     me.opts.outputElement.innerHTML += prompt+"<div style='float: left;'>"+":"+me.opts.currentDir+"# "+originalCommand+"</div><br>" + request.responseText.replace(new RegExp("<br><br>$"), "<br>");
-                    me.opts.outputElement.scrollTop = me.opts.outputElement.scrollHeight;
                 }
+                me.opts.outputElement.scrollTop = me.opts.outputElement.scrollHeight;
                 me.updateInputWidth();
             }
         };
