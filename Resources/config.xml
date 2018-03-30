@@ -85,7 +85,8 @@ div.console ::-webkit-scrollbar-thumb {
             <name>dnBashPrompt</name>
             <label lang="de">Kommandozeile Prompt</label>
             <label lang="en">Command Line Prompt</label>
-            <value><![CDATA[<div style="color:#ff0000; float: left;">{username}@{hostname}</div>]]></value>
+            <value><![CDATA[<div style="color:#ff0000; float: left;">{username}@{hostname}</div>
+<div style="float: left;">:{dir}#<tpl if="command"> {command}</tpl></div>]]></value>
             <options>
                 <xtype>codemirror</xtype>
                 <mode>htmlmixed</mode>

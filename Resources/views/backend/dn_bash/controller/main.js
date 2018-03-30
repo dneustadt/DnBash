@@ -6,7 +6,7 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
 
     opts: {
         'prompt': new Ext.XTemplate(
-            '{config name="dnBashPrompt"}'
+            '{{config name="dnBashPrompt"}|regex_replace:"/[\r\t\n]/" : ""}'
         ),
         'username': "",
         'hostname': "",
@@ -77,7 +77,11 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
                 me.opts.hostname = parsedResponse[1];
                 me.opts.currentDir = parsedResponse[2].replace(new RegExp("&sol;", "g"), "/");
                 me.opts.defaultDir = me.opts.currentDir;
-                me.opts.usernameElement.innerHTML = me.opts.prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+":"+me.opts.currentDir+"#";
+                me.opts.usernameElement.innerHTML = me.opts.prompt.apply({
+                    username: me.opts.username,
+                    hostname: me.opts.hostname,
+                    dir: me.opts.currentDir
+                });
                 me.updateInputWidth();
             }
         };
@@ -126,16 +130,28 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
 
         request.onreadystatechange = function() {
             if (request.readyState === XMLHttpRequest.DONE) {
-                var prompt = me.opts.prompt.apply({ username: me.opts.username, hostname: me.opts.hostname });
-
                 if (cd) {
                     var parsedResponse = request.responseText.split("<br>");
                     me.opts.previousDir = me.opts.currentDir;
                     me.opts.currentDir = parsedResponse[0].replace(new RegExp("&sol;", "g"), "/");
-                    me.opts.outputElement.innerHTML += prompt+"<div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
-                    me.opts.usernameElement.innerHTML = prompt+":"+me.opts.currentDir+"#";
+                    me.opts.outputElement.innerHTML += me.opts.prompt.apply({
+                        username: me.opts.username,
+                        hostname: me.opts.hostname,
+                        dir: originalDir,
+                        command: originalCommand
+                    }) + "<br>";
+                    me.opts.usernameElement.innerHTML = me.opts.prompt.apply({
+                        username: me.opts.username,
+                        hostname: me.opts.hostname,
+                        dir: me.opts.currentDir
+                    });
                 } else {
-                    me.opts.outputElement.innerHTML += prompt+"<div style='float: left;'>"+":"+me.opts.currentDir+"# "+originalCommand+"</div><br>" + request.responseText.replace(new RegExp("<br><br>$"), "<br>");
+                    me.opts.outputElement.innerHTML += me.opts.prompt.apply({
+                        username: me.opts.username,
+                        hostname: me.opts.hostname,
+                        dir: me.opts.currentDir,
+                        command: originalCommand
+                    }) + "<br>" + request.responseText.replace(new RegExp("<br><br>$"), "<br>");
                 }
                 me.opts.outputElement.scrollTop = me.opts.outputElement.scrollHeight;
                 me.updateInputWidth();
@@ -167,7 +183,12 @@ Ext.define('Shopware.apps.DnBash.controller.Main', {
         request.open("POST", "{url action=getShellInfo}", true);
         request.send(formData);
 
-        me.opts.outputElement.innerHTML += me.opts.prompt.apply({ username: me.opts.username, hostname: me.opts.hostname })+"<div style='float: left;'>"+":"+me.opts.currentDir+"# Uploading "+me.opts.fileBrowserElement.files[0].name+"...</div><br>";
+        me.opts.outputElement.innerHTML += me.opts.prompt.apply({
+            username: me.opts.username,
+            hostname: me.opts.hostname,
+            dir: me.opts.currentDir,
+            command: "Uploading "+me.opts.fileBrowserElement.files[0].name+"..."
+        }) + "<br>";
     },
 
     updateInputWidth: function() {
