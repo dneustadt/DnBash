@@ -86,11 +86,11 @@ div.console ::-webkit-scrollbar-thumb {
             <label lang="de">Kommandozeile Prompt</label>
             <label lang="en">Command Line Prompt</label>
             <value><![CDATA[<div style="color:#ff0000; float: left;">{username}@{hostname}</div>]]></value>
-                <options>
-                    <xtype>codemirror</xtype>
-                    <mode>htmlmixed</mode>
-                    <height>300</height>
-                </options>
+            <options>
+                <xtype>codemirror</xtype>
+                <mode>htmlmixed</mode>
+                <height>300</height>
+            </options>
         </element>
     </elements>
 </config>
