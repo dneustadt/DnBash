@@ -1,5 +1,7 @@
 # Command Line in Shopware
 
+> **Discontinued** - now part of [FroshMaintenance](https://github.com/FriendsOfShopware/FroshMaintenance)
+
 This plugin adds command line window (semi-interactive web shell) to the Shopware backend.
 
 It's based on [phpbash](https://github.com/Arrexel/phpbash) by [Arrexel](https://github.com/Arrexel)
